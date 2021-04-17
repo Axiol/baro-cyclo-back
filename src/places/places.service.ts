@@ -72,4 +72,30 @@ export class PlacesService {
       throw new NotFoundException('Place not found');
     }
   }
+
+  async search(query: string) {
+    const res = await this.placeModel.aggregate([
+      {
+        $search: {
+          autocomplete: {
+            path: 'name',
+            query: query,
+          },
+        },
+      },
+      {
+        $limit: 5,
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          center: 1,
+          borders: 1
+        },
+      },
+    ]);
+    
+    return res;
+  }
 }

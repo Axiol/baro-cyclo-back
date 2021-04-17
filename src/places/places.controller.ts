@@ -30,6 +30,14 @@ export class PlacesController {
     return place;
   }
 
+  @Get('search/:query')
+  async search(
+    @Param('query') query: string
+  ) {
+    const places = await this.placesService.search(query);
+    return places;
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: string,
