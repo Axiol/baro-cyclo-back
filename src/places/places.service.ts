@@ -12,7 +12,7 @@ export class PlacesService {
   private async getPlace(id: string) {
     let place;
     try {
-      place = await this.placeModel.findById(id).exec();
+      place = await this.placeModel.findById(id).populate('reviews').exec();
     } catch(err) {
       throw new NotFoundException('Place not found');
     }
@@ -41,7 +41,7 @@ export class PlacesService {
   }
 
   async findAll() {
-    const places = await this.placeModel.find().exec();
+    const places = await this.placeModel.find().populate('reviews').exec();
 
     return places;
   }
